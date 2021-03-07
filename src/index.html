@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+<head>
+    <script src="./index.js"></script>
+</head>
 <html>
     <body>
         <h2>Stack Overflow tagged searches</h2>
-            <label for="fname">Enter a tag:</label><br>
+            <p>Enter a tag:</p><br>
             <input type="text" id="tag" name="tag"><br/><br/>
-            <input type="submit" value="Submit" onclick="fetchMostVoted()">
+            <button onclick="fetchData()">Submit</button>
 
         <div id="questions"></div>
     </body>
-    <script src="./index.js"></script>
 </html>
