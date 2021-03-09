@@ -10,8 +10,22 @@ function fetchData(){
     const newestUrl = stackUrl + '&sort=creation';
     fetchMostVoted(newestUrl,mostVotedUrl)
 
+}
+function setEventHandlers(){
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
     
-    // temp(newestUrl)
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+        });
+    }
 }
 function fetchMostVoted(newestUrl,mostVotedUrl)
 { 
@@ -41,6 +55,8 @@ function fetchMostVoted(newestUrl,mostVotedUrl)
 
                 mergedQuestions.sort((questionA,questionB) => questionB.creation_date - questionA.creation_date)
                 
+
+                let content = "";
                 for (let i = 0; i < mergedQuestions.length; i++) {
                     const question = mergedQuestions[i];
                     var creation_date = question["creation_date"];
@@ -49,30 +65,12 @@ function fetchMostVoted(newestUrl,mostVotedUrl)
                     var year = date.getFullYear();
                     var month = date.getMonth() + 1;
                     var day = date.getDate();
-                    document.getElementById("questions").innerHTML+="<p>" + question["title"] + " Date: " + year + "  " + month+ "  " + day +"</p>";
-                }
-                
 
+                    content+= "<button type=\"button\" class=\"collapsible\" >"+ question["title"] + "</button>";
+                    content+= "<div class=\"content\"> <p>"+" Date: " + year + "  " + month+ "  " + day + "</p></div><br><br>";
+                }
+                document.getElementById("questions").innerHTML = content;
+                setEventHandlers()                
         });
     });
 }
-
-function temp(newestUrl){
-    fetch(newestUrl
-        ).then(response => {
-            if(response.ok){
-                console.log("success")
-            }
-            else{
-                console.log("not success")
-            }
-            return response.json();
-        }).then(data =>{
-            let newestQuestions = data["items"];
-            for (let i = 0; i < 10; i++) {
-                const question = newestQuestions[i];
-                document.getElementById("questions").innerHTML+="<p>" + question["title"] + "</p>";
-            }
-    });
-}
-// try passing the json  array parameter
